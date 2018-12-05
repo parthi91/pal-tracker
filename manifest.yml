@@ -5,4 +5,4 @@ applications:
     routes:
       - route: pal-tracker-parthi-rekha.apps.pcf.paltraining.perficient.com
     env:
-      WELCOME_MESSAGE: Hello from the review environment
+      WELCOME_MESSAGE: Hello from test
