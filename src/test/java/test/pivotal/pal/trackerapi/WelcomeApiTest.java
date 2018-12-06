@@ -29,15 +29,4 @@ public class WelcomeApiTest {
         String body = this.restTemplate.getForObject("/", String.class);
         assertThat(body).isEqualTo("Hello from test");
     }
-
-    @Before
-    public void setUp() throws Exception {
-        MysqlDataSource dataSource = new MysqlDataSource();
-        dataSource.setUrl(System.getenv("SPRING_DATASOURCE_URL"));
-
-        JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
-        jdbcTemplate.execute("TRUNCATE time_entries");
-
-        TimeZone.setDefault(TimeZone.getTimeZone("UTC"));
-    }
 }
