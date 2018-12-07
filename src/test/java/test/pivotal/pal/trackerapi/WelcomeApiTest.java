@@ -8,6 +8,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.junit.Test;
@@ -21,6 +23,8 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SpringBootTest(classes = PalTrackerApplication.class, webEnvironment = RANDOM_PORT)
 public class WelcomeApiTest {
 
+    @LocalServerPort
+    private String port;
     @Autowired
     private TestRestTemplate restTemplate;
 
@@ -29,4 +33,14 @@ public class WelcomeApiTest {
         String body = this.restTemplate.getForObject("/", String.class);
         assertThat(body).isEqualTo("Hello from test");
     }
+
+    @Before
+    public void setUp() throws Exception {
+        RestTemplateBuilder builder = new RestTemplateBuilder()
+                .rootUri("http://localhost:" + port)
+                .basicAuthorization("user", "password");
+
+        restTemplate = new TestRestTemplate(builder);
+    }
+
 }
